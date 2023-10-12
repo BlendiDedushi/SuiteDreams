@@ -1,0 +1,22 @@
+.suite {
+    color: black;
+    -webkit-text-fill-color: white;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgb(82, 93, 100);
+
+}
+
+.dreams {
+    color: black;
+    -webkit-text-fill-color: white;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgb(126, 160, 183);
+}
+
+header, footer{
+    background-color: #2C3639;
+}
+
+footer{
+    height: 6.7vh;
+}

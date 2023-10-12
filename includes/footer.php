@@ -1,4 +1,4 @@
-<footer class="footer bg-secondary bg-light border">
+<footer class="background text-light">
     <div class="container d-flex justify-content-center">
         <p class="mt-2">Copyright &copy; SuiteDreams, <?= date('Y') ?></p>
     </div>
