@@ -13,10 +13,15 @@
     -webkit-text-stroke-color: rgb(126, 160, 183);
 }
 
-header, footer{
+header,
+footer {
     background-color: #2C3639;
 }
 
-footer{
+footer {
     height: 6.7vh;
+}
+
+.card {
+    width: 18rem;
 }
