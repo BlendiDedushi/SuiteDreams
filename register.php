@@ -12,6 +12,8 @@
                     <form action="#" method="POST">
                         <div class="form-group mb-3">
                             <input type="text" name="username" class="form-control" required placeholder="Enter your username..." />
+                            <!-- form-floating -->
+                            <!-- <label for="floatingInput">Enter your username...</label> -->
                         </div>
                         <div class="form-group mb-3">
                             <input type="email" name="email" class="form-control" required placeholder="Enter your email..." />
