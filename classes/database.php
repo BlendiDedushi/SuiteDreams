@@ -20,4 +20,6 @@ class Database{
     }
 
 }
+$db = new Database('localhost', 'suitedreams_db', 'utf8mb4', 'root', 'blendi123');
+$conn = $db -> connect();
 ?>

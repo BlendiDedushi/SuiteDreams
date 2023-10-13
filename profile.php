@@ -1,4 +1,11 @@
-<?php include 'includes/header.php' ?>
+<?php 
+include 'includes/header.php';
+include 'classes/database.php';
+
+if(!isset($_SESSION['isloggedin'])){
+  header('Location: index.php');
+}
+?>
 
 <section class="bg-dark">
   <div class="p-5">
