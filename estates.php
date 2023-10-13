@@ -3,7 +3,7 @@
 
 </div>
 <div class="container row">
-    <div class="card m-3">
+    <div class="card m-3 ecard">
     <img src="assets/images/estate-card.png" class="card-img-top" alt="estate-card">
     <div class="card-body">
         <h5 class="card-title">estate.name</h5>
