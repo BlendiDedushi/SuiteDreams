@@ -10,7 +10,7 @@
         <p class="card-text">estate.location | estate.price&euro;</p>
         <div class="d-flex justify-content-between align-items-center">
             <p class="card-text">Review</p>
-            <a href="#" class="btn btn-sm btn-outline-dark"><i class="bi bi-box-arrow-in-right"></i></a>
+            <a href="estate.php" class="btn btn-sm btn-outline-dark"><i class="bi bi-box-arrow-in-right"></i></a>
         </div>
     </div>
     </div>

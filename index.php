@@ -28,5 +28,6 @@
         </div>
     </div>
 </main>
-
-<?php include 'includes/footer.php' ?>
+<div class="fixed-bottom">
+    <?php include 'includes/footer.php' ?>
+</div>

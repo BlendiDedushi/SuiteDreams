@@ -3,7 +3,7 @@ include 'includes/header.php';
 include 'classes/database.php';
 
 if(!isset($_SESSION['isloggedin'])){
-  header('Location: index.php');
+  header('Location: login.php');
 }
 ?>
 
@@ -89,4 +89,6 @@ if(!isset($_SESSION['isloggedin'])){
   </div>
 </div>
 
-<?php include 'includes/footer.php' ?>
+<div class="fixed-bottom">
+    <?php include 'includes/footer.php' ?>
+</div>

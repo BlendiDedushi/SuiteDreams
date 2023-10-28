@@ -42,7 +42,7 @@ if (isset($_POST['register_btn'])) {
 
 ?>
 <section class="my-5">
-    <div class="container">
+    <div class="container p-5">
         <div class="row">
             <div class="col-4">
                 <img class="img-fluid" src="assets/images/register.png" alt="estate-search" />
@@ -80,4 +80,6 @@ if (isset($_POST['register_btn'])) {
         </div>
     </div>
 </section>
-<?php include 'includes/footer.php' ?>
+<div class="fixed-bottom">
+    <?php include 'includes/footer.php' ?>
+</div>
