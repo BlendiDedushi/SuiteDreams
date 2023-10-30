@@ -6,7 +6,7 @@ $estatesCrud = new EstatesCrud($conn);
 $estates = $estatesCrud->getAllEstates();
 ?>
 
-<div class="container row">
+<div class="container row mx-auto">
     <?php if (count($estates)): ?>
         <?php foreach ($estates as $estate): ?>
             <?php
@@ -14,7 +14,7 @@ $estates = $estatesCrud->getAllEstates();
             $image = $estatesCrud->getAllImages($estate['id']);
             $firstImageName = $image[0]['image'];
             ?>
-            <div class="card m-3 ecard">
+            <div class="card m-3" style="width: 18rem;" >
                 <img src="estates/<?= $firstImageName ?>" class="py-2" alt="estate-card" style="height: 25vh;">
                 <div class="card-body">
                     <h5 class="card-title">
