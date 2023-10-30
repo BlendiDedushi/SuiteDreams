@@ -1,16 +1,22 @@
 <?php
 include 'includes/header.php';
 include 'classes/userCRUD.php';
+include 'classes/estatesCRUD.php';
 
 if (!isset($_SESSION['isloggedin'])) {
   header('Location: login.php');
 }
 
+
 $userCrud = new UserCrud($conn);
+$estatesCrud = new EstatesCrud($conn);
 
 if (isset($_SESSION['id'])) {
   $id = $_SESSION['id'];
   $user = $userCrud->getUserById($id);
+  $estates = $estatesCrud->getAllEstates();
+  $users = $userCrud->getAllUsers();
+  $myestates = $estatesCrud->getEstatesByUserId($id);
 }
 
 if (isset($_POST['createE'])) {
@@ -35,40 +41,85 @@ if (isset($_POST['createE'])) {
   }
   header('Location: profile.php');
 }
+
+$roleNames = [
+  1 => 'User',
+  2 => 'Agent',
+  3 => 'Admin',
+];
+
+if (isset($_POST['deleteEstate'])) {
+  $deleteEstateId = $_POST['deleteEstateId'];
+  $delEstate = $estatesCrud->deleteEstate($deleteEstateId);
+  header("Location: profile.php");
+}
+if (isset($_POST['deleteUser'])) {
+  $deleteUserId = $_POST['deleteUserId'];
+  $delUser = $userCrud->deleteUser($deleteUserId);
+  header("Location: profile.php");
+}
+
+
 ?>
-<?php if ($user['role_id'] == 2): ?>
-  <section class="bg-secondary p-2">
-    <div class="d-flex justify-content-end">
-      <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#cEstate">
-        Create Estate <i class="bi bi-house-add"></i>
-      </button>
-    </div>
-  </section>
-<?php endif; ?>
+<form method="POST">
+  <?php if ($user['role_id'] == 2): ?>
+    <section class="bg-secondary p-2">
+      <div class="d-flex justify-content-end gap-2">
+        <button type="submit" name="showMyEstates" class="btn btn-sm btn-outline-light">
+          My Estates <i class="bi bi-house-down"></i>
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#cEstate">
+          Create Estate <i class="bi bi-house-add"></i>
+        </button>
+      </div>
+    </section>
+  <?php endif; ?>
+</form>
+
+<form method="POST">
+  <?php if ($user['role_id'] == 3): ?>
+    <section class="bg-secondary p-2">
+      <div class="d-flex justify-content-end gap-2">
+        <button type="submit" name="showUsers" class="btn btn-sm btn-outline-light">
+          Show Users <i class="bi bi-person-down"></i>
+        </button>
+        <button type="submit" name="showEstates" class="btn btn-sm btn-outline-light">
+          Show Estates <i class="bi bi-house-down"></i>
+        </button>
+      </div>
+    </section>
+  <?php endif; ?>
+</form>
 
 <section class="bg-dark p-3">
-  <div class="container">
-    <div class="card p-2 bg-transparent mb-2" style="width: 15rem;">
-      <div class="d-flex justify-content-center align-items-center">
-        <img src="<?= $user['avatar'] ?>" class="img-thumbnail rounded-circle" style="width: 100px;" alt="profile_img">
+  <div class="container d-flex justify-content-between">
+    <div>
+      <div class="card p-2 bg-transparent mb-2" style="width: 15rem;">
+        <div class="d-flex justify-content-center align-items-center">
+          <img src="<?= $user['avatar'] ?>" class="img-thumbnail rounded-circle" style="width: 100px;"
+            alt="profile_img">
+        </div>
+        <div class="card-body text-center">
+          <p class="p-0 m-0 mb-2 text-white fw-semibold">
+            <?= $user['username'] ?>
+          </p>
+          <p class="p-0 m-0 text-white fst-italic">
+            <?= $user['email'] ?>
+          </p>
+        </div>
       </div>
-      <div class="card-body text-center">
-        <p class="p-0 m-0 mb-2 text-white fw-semibold">
-          <?= $user['username'] ?>
-        </p>
-        <p class="p-0 m-0 text-white fst-italic">
-          <?= $user['email'] ?>
-        </p>
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#uProfile">
+          Update Profile
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#uPassword">
+          Update Password
+        </button>
       </div>
     </div>
-    <div class="w-25 d-flex gap-2">
-      <button type="button" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#uProfile">
-        Update Profile
-      </button>
-      <button type="button" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#uPassword">
-        Update Password
-      </button>
-    </div>
+    <?php include 'includes/myEstates.php' ?>
+    <?php include 'includes/allUsers.php' ?>
+    <?php include 'includes/allEstates.php' ?>
   </div>
 </section>
 <?php include 'includes/profileModals.php' ?>

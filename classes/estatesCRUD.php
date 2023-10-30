@@ -1,6 +1,6 @@
 <?php
 
-include 'classes/database.php';
+require_once 'classes/database.php';
 
 class EstatesCrud
 {
@@ -16,6 +16,16 @@ class EstatesCrud
         $stm = $this->conn->prepare('SELECT * FROM `estate` WHERE `id` = ?');
         $stm->execute([$estateId]);
         return $stm->fetch(PDO::FETCH_ASSOC);
+    }
+    public function getEstatesByUserId($userId)
+    {
+        $stm = $this->conn->prepare('SELECT `estate`.* FROM `estate` INNER JOIN `user` ON user.id = estate.created_by WHERE user.id = ?');
+        $stm->execute([$userId]);
+        $estates = [];
+        while ($estate = $stm->fetch(PDO::FETCH_ASSOC)) {
+            $estates[] = $estate;
+        }
+        return $estates;
     }
     public function getAllEstates()
     {
@@ -47,5 +57,15 @@ class EstatesCrud
         $stm->execute([$estateId]);
         $rate = $stm->fetch(PDO::FETCH_ASSOC);
         return $rate['avgrate'];
+    }
+
+    public function deleteEstate($estateId)
+    {
+        $stm = $this->conn->prepare('DELETE FROM `estate` WHERE `id` = ?');
+        $stm->execute([$estateId]);
+        if ($stm->rowCount() > 0) {
+            return true;
+        }
+        return false;
     }
 }
