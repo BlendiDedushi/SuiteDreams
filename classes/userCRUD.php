@@ -39,4 +39,28 @@ class UserCrud
         }
         return false; 
     }
+
+    public function getResByUserId($userId)
+    {
+        $stm = $this->conn->prepare('SELECT `reservation`.* FROM `reservation` INNER JOIN `user` ON user.id = reservation.user_id WHERE user.id = ?');
+        $stm->execute([$userId]);
+        $reservations = [];
+        while ($reservation = $stm->fetch(PDO::FETCH_ASSOC)) {
+            $reservations[] = $reservation;
+        }
+        return $reservations;
+    }
+
+    public function deleteReservation($rId)
+    {
+        $reservation = $this->getUserById($rId);
+        if ($reservation) {
+            $stm = $this->conn->prepare('DELETE FROM `reservation` WHERE `id` = ?');
+            $stm->execute([$rId]);
+            if ($stm->rowCount() > 0) {
+                return true;
+            }
+        }
+        return false; 
+    }
 }

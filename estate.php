@@ -7,44 +7,34 @@ if (!isset($_SESSION['isloggedin'])) {
 }
 
 $estatesCrud = new EstatesCrud($conn);
+$uid = $_SESSION['id'];
+
+if (isset($_POST['createR'])) {
+    $checkin = $_POST['checkin'];
+    $checkout = $_POST['checkout'];
+    $eid = $_POST['eid'];
+    if (!empty($checkin) && !empty($checkout)) {
+        $stm = $conn->prepare('INSERT INTO `reservation` (`check_in_date`, `check_out_date`, `user_id`, `estate_id`) VALUES (?, ?, ?, ?)');
+        $stm->execute([$checkin, $checkout,$uid,$eid]);
+    }
+    header('Location: profile.php');
+}
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $estate = $estatesCrud->getEstateById($id);
     $avgRating = $estatesCrud->getAverageRatingForEstate($id);
-    $image = $estatesCrud->getAllImages($id);
+    $image = $estatesCrud->getAllImages($id);     
 } else {
     die('<div class="alert alert-info text-center mx-5 my-5" role="alert">
-            Estate does not exist!
-        </div>');
+    Page does not exist!
+    </div>');
 }
 
-if (isset($_POST['createE'])) {
-    $name = $_POST['name'];
-    $desc = $_POST['desc'];
-    $location = $_POST['location'];
-    $lat = $_POST['lat'];
-    $long = $_POST['long'];
-    $price = $_POST['price'];
-  
-    $stm = $conn->prepare('INSERT INTO `estate` (`name`,`desc`,`location`,`lat`,`long`,`price`,`created_by`) VALUES (?,?,?,?,?,?,?)');
-    $stm->execute([$name, $desc, $location, $lat, $long, $price, $id]);
-    $estate_id = $conn->lastInsertId();
-  
-    if (isset($_FILES['photos'])) {
-      for ($i = 0; $i < count($_FILES['photos']['name']); $i++) {
-        $filename = time() . "-" . $_FILES['photos']['name'][$i];
-        $stm = $conn->prepare('INSERT INTO `image` (`estate_id`,`image`) VALUES (?,?)');
-        $stm->execute([$estate_id, $filename]);
-        move_uploaded_file($_FILES['photos']['tmp_name'][$i], 'estates/' . $filename);
-      }
-    }
-    header('Location: profile.php');
-  }
 
 ?>
 <section class="text-light" style="background: rgb(28,30,31);
-background: linear-gradient(340deg, rgba(28,30,31,1) 0%, rgba(89,72,40,1) 48%, rgba(170,114,8,1) 100%);" >
+background: linear-gradient(340deg, rgba(28,30,31,1) 0%, rgba(89,72,40,1) 48%, rgba(170,114,8,1) 100%);">
     <div class="d-flex justify-content-between p-3">
         <div class="col-7">
             <div id="carouselExample" class="carousel slide">
@@ -95,7 +85,8 @@ background: linear-gradient(340deg, rgba(28,30,31,1) 0%, rgba(89,72,40,1) 48%, r
         <div>
             <div id="dst" class="fw-light fst-italic"></div>
             <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#reservationM">Make a Reservation</button>
+                <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal"
+                    data-bs-target="#reservationM" >Make a Reservation</button>
             </div>
         </div>
     </div>

@@ -17,6 +17,7 @@ if (isset($_SESSION['id'])) {
   $estates = $estatesCrud->getAllEstates();
   $users = $userCrud->getAllUsers();
   $myestates = $estatesCrud->getEstatesByUserId($id);
+  $myreservations = $userCrud->getResByUserId($id);
 }
 
 if (isset($_POST['createE'])) {
@@ -56,6 +57,11 @@ if (isset($_POST['deleteEstate'])) {
 if (isset($_POST['deleteUser'])) {
   $deleteUserId = $_POST['deleteUserId'];
   $delUser = $userCrud->deleteUser($deleteUserId);
+  header("Location: profile.php");
+}
+if (isset($_POST['deleteReservation'])) {
+  $deleteReservationId = $_POST['deleteReservationId'];
+  $delRes = $userCrud->deleteReservation($deleteReservationId);
   header("Location: profile.php");
 }
 
@@ -101,34 +107,16 @@ if (isset($_POST['update_password'])) {
   header("Location: profile.php");
 }
 
-// if (isset($_POST['update_role'])) {
-//   $urole = isset($_POST['urole']) ? $_POST['urole'] : null;
-//   $upUser = isset($_POST['upUser']) ? $_POST['upUser'] : null;
-
-//   if (!empty($urole) && !empty($upUser)) {
-//     $stm = $conn->prepare('UPDATE `user` SET `role_id`=? WHERE `user`.id=?');
-//     $stm->execute([$urole, $upUser]);
-//     header("Location: profile.php");
-//   } else {
-//     $errors[] = "Invalid input or user not found.";
-//   }
-// }
-
-
-
 ?>
 <form method="POST">
   <?php if ($user['role_id'] == 1): ?>
     <section class="bg-secondary p-2">
       <div class="d-flex justify-content-end gap-2">
-        <?php if (count($myestates) > 0): ?>
-          <button type="submit" name="showMyEstates" class="btn btn-sm btn-outline-light">
-            My Estates <i class="bi bi-house-down"></i>
+        <?php if (count($myreservations) > 0): ?>
+          <button type="submit" name="showMyReservations" class="btn btn-sm btn-outline-light">
+            My Reservations <i class="bi bi-house-down"></i>
           </button>
         <?php endif; ?>
-        <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#cEstate">
-          Create Estate <i class="bi bi-house-add"></i>
-        </button>
       </div>
     </section>
   <?php endif; ?>
@@ -216,6 +204,7 @@ background: linear-gradient(9deg, rgba(0,0,0,1) 0%, rgba(69,107,107,0.9767981438
       <?php endif; ?>
     </div>
     <?php include 'includes/myEstates.php' ?>
+    <?php include 'includes/myReservations.php' ?>
     <?php include 'includes/allUsers.php' ?>
     <?php include 'includes/allEstates.php' ?>
   </div>
