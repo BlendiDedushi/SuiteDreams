@@ -153,34 +153,3 @@
     </div>
   </div>
 </div>
-
-<!-- UpdateUserRole Modal
-<div class="modal fade" id="uUser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Update Role</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
-          <div class="form-group mb-4">
-            <select name="urole" class="form-control">
-              <option value="1" <?= $u['role_id'] == 1 ? 'selected' : '' ?>>User</option>
-              <option value="2" <?= $u['role_id'] == 2 ? 'selected' : '' ?>>Agent</option>
-              <option value="3" <?= $u['role_id'] == 3 ? 'selected' : '' ?>>Admin</option>
-            </select>
-          </div>
-          <div class="form-group mb-4">
-            <input type="email" readonly class="form-control" name="email" value="<?= $u['email'] ?>" />
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
-            <button type="submit" name="update_role" class="btn btn-outline-success">Save Changes</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div> -->
-

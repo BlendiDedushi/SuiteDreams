@@ -107,6 +107,15 @@ if (isset($_POST['update_password'])) {
   header("Location: profile.php");
 }
 
+if (isset($_POST['updateUserRole'])) {
+  $newRoleId = $_POST['newRole']; 
+  $usId = $_POST['updateUserId'];
+  $stm = $conn->prepare('UPDATE `user` SET `role_id`=? WHERE `user`.id=?');
+  $stm->execute([$newRoleId, $usId]); 
+  header("Location: profile.php");
+}
+
+
 ?>
 <form method="POST">
   <?php if ($user['role_id'] == 1): ?>

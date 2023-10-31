@@ -8,7 +8,7 @@ if (count($users)): ?>
           <th scope="col">Username</th>
           <th scope="col">Email</th>
           <th scope="col">Role</th>
-          <th scope="col">Delete</th>
+          <th scope="col" class="text-end">EditRole/Delete</th>
         </tr>
       </thead>
       <tbody>
@@ -28,15 +28,18 @@ if (count($users)): ?>
               <?= $roleNames[$u['role_id']] ?>
             </td>
             <td>
-              <div class="d-flex justify-content-around align-items-center">
-                <!-- <form method="POST">
-                  <input type="hidden" name="upUser" value="<?= $u['id'] ?>">
-                  <input type="hidden" name="upUserRole" value="<?= $u['role_id'] ?>"> 
-                  <input type="hidden" name="upUserEmail" value="<?= $u['email'] ?>"> 
-                  <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#uUser">
-                    <i class="bi bi-person-x"></i>
+              <div class="d-flex justify-content-around align-items-center gap-2">
+                <form method="POST">
+                  <input type="hidden" name="updateUserId" value="<?= $u['id'] ?>">
+                  <select name="newRole">
+                    <option value="1">User</option>
+                    <option value="2">Agent</option>
+                    <option value="3">Admin</option>
+                  </select>
+                  <button type="submit" name="updateUserRole" class="btn btn-sm btn-outline-info">
+                  <i class="bi bi-pencil-square"></i>
                   </button>
-                </form> -->
+                </form>
                 <form method="POST">
                   <input type="hidden" name="deleteUserId" value="<?= $u['id'] ?>">
                   <button type="submit" name="deleteUser" class="btn btn-sm btn-outline-danger">
