@@ -1,4 +1,5 @@
-<?php if (count($users)): ?>
+<?php
+if (count($users)): ?>
   <div id="users" style="<?= isset($_POST['showUsers']) ? 'display: block;' : 'display: none;' ?>">
     <table class="table table-secondary table-hover">
       <thead>
@@ -7,13 +8,12 @@
           <th scope="col">Username</th>
           <th scope="col">Email</th>
           <th scope="col">Role</th>
-          <th scope="col">Update/Delete</th>
+          <th scope="col">Delete</th>
         </tr>
       </thead>
       <tbody>
         <?php foreach ($users as $u): ?>
-          <?php if ($u['role_id'] == 3)
-            continue; ?>
+          <?php if ($u['role_id'] == 3) continue; ?>
           <tr>
             <th scope="row">
               <?= $u['id'] ?>
@@ -29,10 +29,14 @@
             </td>
             <td>
               <div class="d-flex justify-content-around align-items-center">
-                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-                  data-bs-target="#uUser">
-                  <i class="bi bi-pencil-square"></i>
-                </button>
+                <!-- <form method="POST">
+                  <input type="hidden" name="upUser" value="<?= $u['id'] ?>">
+                  <input type="hidden" name="upUserRole" value="<?= $u['role_id'] ?>"> 
+                  <input type="hidden" name="upUserEmail" value="<?= $u['email'] ?>"> 
+                  <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#uUser">
+                    <i class="bi bi-person-x"></i>
+                  </button>
+                </form> -->
                 <form method="POST">
                   <input type="hidden" name="deleteUserId" value="<?= $u['id'] ?>">
                   <button type="submit" name="deleteUser" class="btn btn-sm btn-outline-danger">

@@ -59,6 +59,62 @@ if (isset($_POST['deleteUser'])) {
   header("Location: profile.php");
 }
 
+if (isset($_POST['update_profile'])) {
+  $username = $_POST['username'];
+  $email = $_POST['email'];
+  $filename = '';
+
+  if (isset($_FILES['avatar'])) {
+    $filename = time() . "-" . $_FILES['avatar']['name'];
+    move_uploaded_file($_FILES['avatar']['tmp_name'], 'avatars/' . $filename);
+  }
+
+  if (!empty($filename)) {
+    $stm = $conn->prepare('UPDATE `user` SET `username`=?, `email`=?, `avatar`=? WHERE `user`.id=?');
+    $stm->execute([$username, $email, $filename, $id]);
+  } else {
+    if (!empty($username) && !empty($email)) {
+      $stm = $conn->prepare('UPDATE `user` SET `username`=?, `email`=? WHERE `user`.id=?');
+      $stm->execute([$username, $email, $id]);
+    }
+  }
+  header("Location: profile.php");
+}
+
+$errors=[];
+if (isset($_POST['update_password'])) {
+  $oldpassword = $_POST['oldpassword'];
+  $password1 = $_POST['password1'];
+  $password2 = $_POST['password2'];
+
+  if ($password1 == $password2) {
+    if (password_verify($oldpassword, $user['password'])) {
+      $stm = $conn->prepare('UPDATE `user` SET `password`=? WHERE `user`.id=?');
+      $stm->execute([password_hash($password1, PASSWORD_BCRYPT),$id]);
+      header("Location: profile.php?status=1");
+    }else{
+      $errors[] = 'Password wrong!';
+    }
+  } else {
+    $errors[] = 'Password isnt matching!';
+  }
+  header("Location: profile.php");
+}
+
+// if (isset($_POST['update_role'])) {
+//   $urole = isset($_POST['urole']) ? $_POST['urole'] : null;
+//   $upUser = isset($_POST['upUser']) ? $_POST['upUser'] : null;
+
+//   if (!empty($urole) && !empty($upUser)) {
+//     $stm = $conn->prepare('UPDATE `user` SET `role_id`=? WHERE `user`.id=?');
+//     $stm->execute([$urole, $upUser]);
+//     header("Location: profile.php");
+//   } else {
+//     $errors[] = "Invalid input or user not found.";
+//   }
+// }
+
+
 
 ?>
 <form method="POST">
@@ -111,13 +167,19 @@ if (isset($_POST['deleteUser'])) {
 </form>
 
 <section class="p-3" style="height:85vh; background: rgb(0,0,0);
-background: linear-gradient(9deg, rgba(0,0,0,1) 0%, rgba(69,107,107,0.9767981438515081) 44%, rgba(158,114,7,1) 100%);" >
+background: linear-gradient(9deg, rgba(0,0,0,1) 0%, rgba(69,107,107,0.9767981438515081) 44%, rgba(158,114,7,1) 100%);">
   <div class="container d-flex justify-content-between">
     <div>
       <div class="card p-2 bg-transparent mb-2" style="width: 15rem;">
         <div class="d-flex justify-content-center align-items-center">
-          <img src="<?= $user['avatar'] ?>" class="img-thumbnail rounded-circle" style="width: 100px;"
-            alt="profile_img">
+          <?php
+          if (!empty($user['avatar'])) {
+            echo '<img src="avatars/' . $user['avatar'] . '" class="img-thumbnail rounded-circle" style="width: 100px; height: 100px;" alt="profile_img">';
+          } else {
+            echo '<img src="https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?s=612x612&w=0&k=20&c=yDJ4ITX1cHMh25Lt1vI1zBn2cAKKAlByHBvPJ8gEiIg=" class="img-thumbnail rounded-circle" style="width: 100px; height: 100px;" alt="profile_img">';
+          }
+          ?>
+
         </div>
         <div class="card-body text-center">
           <p class="p-0 m-0 mb-2 text-white fw-semibold">
@@ -136,6 +198,22 @@ background: linear-gradient(9deg, rgba(0,0,0,1) 0%, rgba(69,107,107,0.9767981438
           Update Password
         </button>
       </div>
+      <?php if (count($errors)): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <?php foreach ($errors as $error): ?>
+            <p class="p-0 m-0">
+              <?= $error ?>
+            <?php endforeach; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <?php endif; ?>
+      <?php if (isset($_GET['status']) && ($_GET['status'] == 1)): ?>
+        <div class="mt-2 alert alert-success alert-dismissible fade show" role="alert">
+            <p class="p-0 m-0">
+              Password was updated succesfully
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <?php endif; ?>
     </div>
     <?php include 'includes/myEstates.php' ?>
     <?php include 'includes/allUsers.php' ?>
