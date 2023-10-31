@@ -68,4 +68,23 @@ class EstatesCrud
         }
         return false;
     }
+
+    public function getAllEstatesSortedByName(){
+        $stm = $this->conn->prepare('SELECT * FROM `estate` ORDER BY estate.name');
+        $stm->execute();
+        $estates = [];
+        while ($estate = $stm->fetch(PDO::FETCH_ASSOC)) {
+            $estates[] = $estate;
+        }
+        return $estates;
+    }
+    public function getAllEstatesSortedByPrice(){
+        $stm = $this->conn->prepare('SELECT * FROM `estate` ORDER BY estate.price');
+        $stm->execute();
+        $estates = [];
+        while ($estate = $stm->fetch(PDO::FETCH_ASSOC)) {
+            $estates[] = $estate;
+        }
+        return $estates;
+    }
 }
