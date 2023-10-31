@@ -63,4 +63,11 @@ class UserCrud
         }
         return false; 
     }
+
+    public function getUserRole($userId){
+        $stm = $this->conn->prepare('SELECT user.role_id FROM user WHERE user.id = ?');
+        $stm->execute([$userId]);
+        $role = $stm->fetch(PDO::FETCH_ASSOC);
+        return $role;
+    }
 }

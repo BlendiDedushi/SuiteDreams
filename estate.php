@@ -1,13 +1,17 @@
 <?php
 include 'includes/header.php';
 include 'classes/estatesCRUD.php';
+include 'classes/userCRUD.php';
 
 if (!isset($_SESSION['isloggedin'])) {
     header('Location: login.php');
 }
 
 $estatesCrud = new EstatesCrud($conn);
+$userCrud = new UserCrud($conn);
 $uid = $_SESSION['id'];
+$roleU = $userCrud->getUserRole($_SESSION['id']);
+
 
 if (isset($_POST['createR'])) {
     $checkin = $_POST['checkin'];
@@ -15,7 +19,7 @@ if (isset($_POST['createR'])) {
     $eid = $_POST['eid'];
     if (!empty($checkin) && !empty($checkout)) {
         $stm = $conn->prepare('INSERT INTO `reservation` (`check_in_date`, `check_out_date`, `user_id`, `estate_id`) VALUES (?, ?, ?, ?)');
-        $stm->execute([$checkin, $checkout,$uid,$eid]);
+        $stm->execute([$checkin, $checkout, $uid, $eid]);
     }
     header('Location: profile.php');
 }
@@ -24,7 +28,7 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $estate = $estatesCrud->getEstateById($id);
     $avgRating = $estatesCrud->getAverageRatingForEstate($id);
-    $image = $estatesCrud->getAllImages($id);     
+    $image = $estatesCrud->getAllImages($id);
 } else {
     die('<div class="alert alert-info text-center mx-5 my-5" role="alert">
     Page does not exist!
@@ -84,11 +88,13 @@ background: linear-gradient(340deg, rgba(28,30,31,1) 0%, rgba(89,72,40,1) 48%, r
         </div>
         <div>
             <div id="dst" class="fw-light fst-italic"></div>
-            <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal"
-                    data-bs-target="#reservationM" >Make a Reservation</button>
+            <?php if ($roleU['role_id'] == 1): ?>
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal"
+                        data-bs-target="#reservationM">Make a Reservation</button>
+                </div>
+                <?php endif; ?>
             </div>
-        </div>
     </div>
     <?php
     if ($avgRating > 0) {
