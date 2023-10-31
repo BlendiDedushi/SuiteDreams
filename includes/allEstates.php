@@ -8,7 +8,7 @@
           <th scope="col">Location</th>
           <th scope="col">Price</th>
           <th scope="col">Created_by</th>
-          <th scope="col">Update/Delete</th>
+          <th scope="col">Delete</th>
         </tr>
       </thead>
       <tbody>
@@ -26,17 +26,18 @@
             <td>
               <?= $e['price'] ?>
             </td>
-            <td>
+            <td class="text-center">
               <?= $e['created_by'] ?>
             </td>
-            <td class="text-center">
-              <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-square"></i></button>
-              <form method="POST">
-                <input type="hidden" name="deleteEstateId" value="<?= $e['id'] ?>">
-                <button type="submit" name="deleteEstate" class="btn btn-sm btn-outline-danger">
-                  <i class="bi bi-person-x"></i>
-                </button>
-              </form>
+            <td>
+              <div class="d-flex justify-content-around align-items-center">
+                <form method="POST">
+                  <input type="hidden" name="deleteEstateId" value="<?= $e['id'] ?>">
+                  <button type="submit" name="deleteEstate" class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-person-x"></i>
+                  </button>
+                </form>
+              </div>
             </td>
           </tr>
         <?php endforeach; ?>

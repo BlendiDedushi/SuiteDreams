@@ -62,12 +62,31 @@ if (isset($_POST['deleteUser'])) {
 
 ?>
 <form method="POST">
+  <?php if ($user['role_id'] == 1): ?>
+    <section class="bg-secondary p-2">
+      <div class="d-flex justify-content-end gap-2">
+        <?php if (count($myestates) > 0): ?>
+          <button type="submit" name="showMyEstates" class="btn btn-sm btn-outline-light">
+            My Estates <i class="bi bi-house-down"></i>
+          </button>
+        <?php endif; ?>
+        <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#cEstate">
+          Create Estate <i class="bi bi-house-add"></i>
+        </button>
+      </div>
+    </section>
+  <?php endif; ?>
+</form>
+
+<form method="POST">
   <?php if ($user['role_id'] == 2): ?>
     <section class="bg-secondary p-2">
       <div class="d-flex justify-content-end gap-2">
-        <button type="submit" name="showMyEstates" class="btn btn-sm btn-outline-light">
-          My Estates <i class="bi bi-house-down"></i>
-        </button>
+        <?php if (count($myestates) > 0): ?>
+          <button type="submit" name="showMyEstates" class="btn btn-sm btn-outline-light">
+            My Estates <i class="bi bi-house-down"></i>
+          </button>
+        <?php endif; ?>
         <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target="#cEstate">
           Create Estate <i class="bi bi-house-add"></i>
         </button>
@@ -91,7 +110,8 @@ if (isset($_POST['deleteUser'])) {
   <?php endif; ?>
 </form>
 
-<section class="bg-dark p-3">
+<section class="p-3" style="height:85vh; background: rgb(0,0,0);
+background: linear-gradient(9deg, rgba(0,0,0,1) 0%, rgba(69,107,107,0.9767981438515081) 44%, rgba(158,114,7,1) 100%);" >
   <div class="container d-flex justify-content-between">
     <div>
       <div class="card p-2 bg-transparent mb-2" style="width: 15rem;">

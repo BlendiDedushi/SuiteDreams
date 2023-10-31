@@ -19,7 +19,8 @@ if (isset($_GET['id'])) {
         </div>');
 }
 ?>
-<section class="bg-dark text-light">
+<section class="text-light" style="background: rgb(28,30,31);
+background: linear-gradient(340deg, rgba(28,30,31,1) 0%, rgba(89,72,40,1) 48%, rgba(170,114,8,1) 100%);" >
     <div class="d-flex justify-content-between p-3">
         <div class="col-7">
             <div id="carouselExample" class="carousel slide">
@@ -83,7 +84,7 @@ if (isset($_GET['id'])) {
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
-    var map = L.map('map').setView([<?= $estate['lat']; ?>, <?= $estate['long']; ?>], 13);
+    var map = L.map('map').setView([<?= $estate['lat']; ?>, <?= $estate['long']; ?>], 9);
     var marker = L.marker([<?= $estate['lat']; ?>, <?= $estate['long']; ?>]).addTo(map);;
 
     if ("geolocation" in navigator) {
