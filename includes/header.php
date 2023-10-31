@@ -31,7 +31,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'logout') {
   </style>
 </head>
 
-<body>
+<body style="background: rgb(0,0,0);
+background: linear-gradient(9deg, rgba(0,0,0,1) 0%, rgba(69,107,107,0.9767981438515081) 44%, rgba(158,114,7,1) 100%);">
   <header class="background">
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
