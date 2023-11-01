@@ -4,7 +4,7 @@ include 'classes/estatesCRUD.php';
 
 $estatesCrud = new EstatesCrud($conn);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST['btnss'])) {
     $sortBy = $_POST['sort'];
     if (isset($_POST['search'])) {
         $searchTerm = $_POST['search'];
@@ -21,9 +21,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!empty($searchTerm)) {
-        $estates = array_filter($estates, function ($estate) use ($searchTerm) {
-            return strpos(strtolower($estate['name']), strtolower($searchTerm)) !== false;
+        $filteredEstates = array_filter($estates, function ($estate) use ($searchTerm) {
+            return stripos($estate['name'], $searchTerm) !== false;
         });
+    
+        if (empty($filteredEstates)) {
+            $estates = $estatesCrud->getAllEstates();
+        } else {
+            $estates = $filteredEstates;
+        }
     }
 } else {
     $estates = $estatesCrud->getAllEstates();
@@ -39,12 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <option value="price">Price</option>
             </select>
             <input type="text" name="search" class="form-control w-50" placeholder="Search by Name">
-            <button type="submit" class="btn btn-sm btn-outline-dark">Sort/Search Estates</button>
+            <button type="submit" name="btnss" class="btn btn-sm btn-outline-dark">Sort/Search Estates</button>
         </div>
     </form>
 </div>
 
-<div class="container row mx-auto">
+<div class="container row mx-auto mb-5">
     <?php if (count($estates)): ?>
         <?php foreach ($estates as $estate): ?>
             <?php
@@ -75,4 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
+</div>
+<div class="fixed-bottom">
+    <?php include 'includes/footer.php' ?>
 </div>

@@ -41,7 +41,7 @@ if (isset($_POST['register_btn'])) {
 
 
 ?>
-<section class="my-5">
+<section class="my-5" style="height: 78vh;">
     <div class="container p-5">
         <div class="row">
             <div class="col-4">

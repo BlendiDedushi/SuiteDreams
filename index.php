@@ -1,5 +1,5 @@
 <?php include 'includes/header.php' ?>
-<main class="container d-flex flex-column gap-2">
+<main class="container d-flex flex-column gap-3">
     <div class="row">
         <div class="col-3">
             <img class="img-fluid" src="assets/images/estate-search.png" alt="estate-search" />
@@ -13,7 +13,7 @@
             </p>
         </div>
     </div>
-    <div class="row">
+    <div class="row text-light">
         <div class="col-8 d-flex flex-column align-items-center justify-content-center p-5 border border-black">
             <h3>Why SuiteDreams?</h3>
             <ul class="list-unstyled mt-4">
